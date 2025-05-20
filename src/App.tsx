@@ -1,15 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import {KakaoLogo} from "./assets/svgComponents";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Login from './pages/Login.tsx'
+import StoryBoard from './pages/StoryBoard.tsx'
+import MovieEditor from './pages/MovieEditor.tsx'
+import MovieCreator from './pages/MovieCreator.tsx'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <KakaoLogo width={18} height={18} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/storyboard" element={<StoryBoard />} />
+          <Route path="/edit-movie" element={<MovieEditor />} />
+          <Route path="/create-movie" element={<MovieCreator />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
