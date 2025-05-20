@@ -19,6 +19,7 @@
   --color-sub: #495CFF;
 
   --color-overlay: #000000;
+  --color-color: #1A1B1D;
   --color-gray-6: #303033;
   --color-gray-5: #4F5052;
   --color-gray-4: #8F8F91;
@@ -36,8 +37,8 @@
 /* 전역 폰트 스타일 */
 body {
   font-family: 'Handsome Pro', Pretendard, 'Pretendard Variable', sans-serif;
-  background-color: #ececec;
-  color: #000000;
+  background-color: #151619;
+  color: #ffffff;
 }
 
 @utility heading {
