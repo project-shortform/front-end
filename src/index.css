@@ -1,0 +1,376 @@
+@import url('https://fonts.adobe.com/fonts/handsome-pro');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Pretendard Variable';
+  src: url('/fonts/PretendardVariable.ttf') format('opentype');
+  font-style: normal;
+}
+
+/* tailwindCSS에서 해당 color들을 사용할 수 있도록 변경 */
+/* :root에 선언된 애들을 사용하고 있어서 그대로 뒀습니다. 아래와 같이 @theme에 선언해주면 tailwindcss처럼 사용할 수 있어서 @theme도 만들었습니다. */
+@theme {
+  --color-main-dark: #CC3637;
+  --color-main: #EF4B56;
+  --color-main-light1: #FF9FA5;
+  --color-main-light2: #FFCACD;
+  --color-sub: #495CFF;
+
+  --color-overlay: #000000;
+  --color-gray-6: #303033;
+  --color-gray-5: #4F5052;
+  --color-gray-4: #8F8F91;
+  --color-gray-3: #B1B1B3;
+  --color-gray-2: #E3E3E3;
+  --color-gray-1: #F7F7F7;
+  --color-white: #ffffff;
+
+  --color-background: #151619;
+
+  --shadow-middlemodal: 0px 4px 50px 0px #0000000d;
+  --shadow-location-search: 0px 4px 28px 0px #0000000d;
+}
+
+/* 전역 폰트 스타일 */
+body {
+  font-family: 'Handsome Pro', Pretendard, 'Pretendard Variable', sans-serif;
+  background-color: #ececec;
+  color: #000000;
+}
+
+@utility heading {
+  font-family: Pretendard, serif;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 60px */
+  letter-spacing: -0.6px;
+}
+
+@utility title-lg {
+  /* title/bold/16 */
+  font-family: Pretendard, serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 36px */
+  letter-spacing: -0.36px;
+}
+@utility title-md {
+  font-family: Pretendard, serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 30px */
+  letter-spacing: -0.3px;
+}
+@utility title-sm {
+  font-family: Pretendard, serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 24px */
+  letter-spacing: -0.24px;
+}
+
+@utility subtitle-lg {
+  font-family: Pretendard, serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 27px */
+  letter-spacing: -0.27px;
+}
+
+@utility subtitle-md {
+  font-family: Pretendard, serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 24px */
+  letter-spacing: -0.24px;
+}
+
+@utility subtitle-sm {
+  font-family: Pretendard, serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 21px */
+  letter-spacing: -0.21px;
+}
+
+@utility body-md {
+  font-family: Pretendard, serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 24px */
+  letter-spacing: -0.24px;
+}
+
+@utility body-sm {
+  font-family: Pretendard, serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  letter-spacing: -0.21px;
+}
+
+@utility button-md {
+  font-family: Pretendard, serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+
+@utility small {
+  font-family: Pretendard, serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 14.4px */
+  letter-spacing: -0.18px;
+}
+
+/* 버튼 컴포넌트 */
+.active-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  background: var(--color-main, #EF4B56);
+
+  font-family: Pretendard, serif;
+  color: var(--color-white, #FFF);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+
+.hover-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  background: var(--color-main-dark, #CC3637);
+
+  font-family: Pretendard, serif;
+  color: var(--color-white, #FFF);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+
+.disabled-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  background: var(--color-gray-3, #B1B1B3);
+
+  font-family: Pretendard, serif;
+  color: var(--color-white, #FFF);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+
+.secondary-active-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  background: var(--color-gray-5, #4F5052);
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-1, #F7F7F7);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+.secondary-hover-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  background: var(--color-gray-4, #8F8F91);
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-2, #E3E3E3);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+.secondary-default-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  background: var(--color-gray-6, #303033);
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-3, #B1B1B3);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+.secondary-disabled-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-3, #B1B1B3);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+
+.outline-active-button {
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 100px;
+  border: 1px solid var(--color-gray-5, #4F5052);
+  background: var(--color-gray-6, #303033);
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-1, #F7F7F7);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+
+.outline-hover-button {
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 100px;
+  border: 1px solid var(--color-gray-4, #8F8F91);
+  background: var(--color-gray-5, #4F5052);
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-1, #F7F7F7);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+
+.outline-disabled-button {
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 100px;
+  border: 1px solid var(--color-gray-1, #F7F7F7);
+  background: var(--color-gray-3, #B1B1B3);
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-1, #F7F7F7);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+
+.ghost-active-button {
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--color-gray-6, #303033);
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-1, #F7F7F7);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+.ghost-hover-button {
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--color-gray-5, #4F5052);
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-1, #F7F7F7);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
+.ghost-disabled-button {
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 8px;
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-3, #B1B1B3);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.24px;
+}
