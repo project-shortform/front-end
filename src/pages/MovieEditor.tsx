@@ -2,6 +2,8 @@ import Header from '../components/common/Header.tsx'
 import { useState } from 'react'
 import Modal from '../components/common/Modal.tsx'
 import { GoogleLogo, KakaoLogo } from '../assets/svgComponents'
+import SideBar from '../components/movie-editor/SideBar.tsx'
+import MainDashBoard from '../components/movie-editor/MainDashBoard.tsx'
 
 const MovieEditor = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
@@ -26,6 +28,11 @@ const MovieEditor = () => {
         </Modal>
       )}
       <Header headerType={'DEFAULT'} onClick={() => setIsLoginModalOpen(true)} />
+      <div className="h-[5rem]" />
+      <div className="flex items-center justify-center gap-x-[1.688rem] px-[2.5rem] py-[1.563rem]">
+        <SideBar />
+        <MainDashBoard />
+      </div>
     </main>
   )
 }

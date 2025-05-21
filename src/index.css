@@ -324,7 +324,6 @@ body {
 
 .ghost-active-button {
   display: inline-flex;
-  height: 36px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
