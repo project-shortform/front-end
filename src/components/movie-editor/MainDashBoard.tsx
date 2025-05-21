@@ -23,11 +23,11 @@ const MainDashBoard = () => {
         <div className="flex gap-x-6">
           <div className="flex w-full flex-col gap-y-3">
             <h3 className="subtitle-lg">장면 설명</h3>
-            <textarea className="default-input border-gray-5 h-[7.5rem] w-full border"></textarea>
+            <textarea className="default-input h-[7.5rem] w-full"></textarea>
           </div>
           <div className="flex w-full flex-col gap-y-3">
             <h3 className="subtitle-lg">음성 및 자막</h3>
-            <textarea className="default-input border-gray-5 h-[7.5rem] w-full border"></textarea>
+            <textarea className="default-input h-[7.5rem] w-full"></textarea>
           </div>
         </div>
       </section>

@@ -6,6 +6,7 @@ import {
   DeleteIcon,
   WhiteArrowUpIcon,
 } from '../../assets/svgComponents'
+import { useNavigate } from 'react-router-dom'
 
 interface StoryboardPreviewProps {
   onPrevious: () => void
@@ -13,6 +14,7 @@ interface StoryboardPreviewProps {
 
 const StoryboardPreview = (props: StoryboardPreviewProps) => {
   const { onPrevious } = props
+  const navigate = useNavigate()
 
   return (
     <div className="relative h-full">
@@ -46,7 +48,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
               <div className="subtitle-lg">장면 설명</div>
               <textarea
                 placeholder={'원하는 장면을 성명해주세요.\n' + 'ex) 업무중인 직장인들이 피곤한 모습으로 앉아있다.'}
-                className="default-input border-gray-5 h-[7.5rem] w-full border"
+                className="default-input h-[7.5rem] w-full"
               ></textarea>
             </div>
             <div className="flex w-full flex-col gap-y-3">
@@ -55,7 +57,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
                 placeholder={
                   '원하는 나레이션 및 자막을 작성해주세요.\n' + 'ex) 나레이션: 오후 3시, 달콤한 간식이 필요할때'
                 }
-                className="default-input border-gray-5 h-[7.5rem] w-full border"
+                className="default-input h-[7.5rem] w-full"
               ></textarea>
             </div>
           </div>
@@ -76,7 +78,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
               <div className="subtitle-lg">장면 설명</div>
               <textarea
                 placeholder={'원하는 장면을 성명해주세요.\n' + 'ex) 업무중인 직장인들이 피곤한 모습으로 앉아있다.'}
-                className="default-input border-gray-5 h-[7.5rem] w-full border"
+                className="default-input h-[7.5rem] w-full"
               ></textarea>
             </div>
             <div className="flex w-full flex-col gap-y-3">
@@ -85,7 +87,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
                 placeholder={
                   '원하는 나레이션 및 자막을 작성해주세요.\n' + 'ex) 나레이션: 오후 3시, 달콤한 간식이 필요할때'
                 }
-                className="default-input border-gray-5 h-[7.5rem] w-full border"
+                className="default-input h-[7.5rem] w-full"
               ></textarea>
             </div>
           </div>
@@ -106,7 +108,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
               <div className="subtitle-lg">장면 설명</div>
               <textarea
                 placeholder={'원하는 장면을 성명해주세요.\n' + 'ex) 업무중인 직장인들이 피곤한 모습으로 앉아있다.'}
-                className="default-input border-gray-5 h-[7.5rem] w-full border"
+                className="default-input h-[7.5rem] w-full"
               ></textarea>
             </div>
             <div className="flex w-full flex-col gap-y-3">
@@ -115,14 +117,16 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
                 placeholder={
                   '원하는 나레이션 및 자막을 작성해주세요.\n' + 'ex) 나레이션: 오후 3시, 달콤한 간식이 필요할때'
                 }
-                className="default-input border-gray-5 h-[7.5rem] w-full border"
+                className="default-input h-[7.5rem] w-full"
               ></textarea>
             </div>
           </div>
         </section>
       </div>
 
-      <button className="active-button absolute bottom-0 mt-5 w-full py-5">스토리보드 영상 생성하기</button>
+      <button onClick={() => navigate('/create-movie')} className="active-button absolute bottom-0 mt-5 w-full py-5">
+        스토리보드 영상 생성하기
+      </button>
     </div>
   )
 }
