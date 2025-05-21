@@ -17,7 +17,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
   const navigate = useNavigate()
 
   return (
-    <div className="relative h-full">
+    <div className="flex h-full flex-col">
       <section className="flex flex-col gap-y-4">
         <div className="flex justify-between">
           <h1 className="title-lg">스토리보드 미리보기</h1>
@@ -32,7 +32,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
         </div>
       </section>
 
-      <div className="mt-4 flex flex-col gap-y-5 overflow-y-scroll xl:h-[32.5rem] 2xl:h-[400px]">
+      <div className="custom-scroll mt-4 flex flex-grow flex-col gap-y-5 overflow-y-scroll xl:h-[32.5rem] 2xl:h-[400px]">
         <section className="border-gray-5 flex flex-col gap-y-3 rounded-[1.25rem] border p-5">
           <div className="flex justify-between">
             <h3 className="title-md">#1</h3>
@@ -124,7 +124,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
         </section>
       </div>
 
-      <button onClick={() => navigate('/create-movie')} className="active-button absolute bottom-0 mt-5 w-full py-5">
+      <button onClick={() => navigate('/create-movie')} className="active-button mt-5 w-full py-5">
         스토리보드 영상 생성하기
       </button>
     </div>
