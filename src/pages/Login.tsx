@@ -2,12 +2,14 @@ import Header from '../components/common/Header.tsx'
 import { useState } from 'react'
 import Modal from '../components/common/Modal.tsx'
 import { GoogleLogo, KakaoLogo } from '../assets/svgComponents'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen w-full">
+    <main className="flex flex-col items-center justify-center min-h-screen w-full">
       {isLoginModalOpen && (<Modal onClick={() => setIsLoginModalOpen(false)}>
         <section className="flex flex-col items-center justify-center gap-y-[6.25rem] mt-[5rem]">
           <h2 className="title-lg text-gray-1">로그인이 필요합니다.</h2>
@@ -28,11 +30,12 @@ const Login = () => {
 
         <section className="flex flex-col gap-y-[2.5rem] items-center justify-center">
           <h1 className="text-gray-1 heading text-center">만들고 싶었던 영상을 <br />
-            쉽고 간편하게</h1>
-          <button className="active-button h-[3.5rem] w-[25rem] hover:bg-main-dark">영상 제작하기</button>
+            쉽고 간편하게
+          </h1>
+          <button onClick={() => navigate('/storyboard')} className="active-button h-[3.5rem] w-[25rem] hover:bg-main-dark">영상 제작하기</button>
         </section>
       </div>
-    </div>
+    </main>
   )
 }
 export default Login;

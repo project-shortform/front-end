@@ -375,3 +375,19 @@ body {
   line-height: 100%; /* 16px */
   letter-spacing: -0.24px;
 }
+.default-input {
+  display: flex;
+  padding: 12px 16px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  background: var(--color-gray-6, #303033);
+
+  font-family: Pretendard, serif;
+  color: var(--color-gray-1);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 24px */
+  letter-spacing: -0.24px;
+}
