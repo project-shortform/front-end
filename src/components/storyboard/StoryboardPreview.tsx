@@ -32,7 +32,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
         </div>
       </section>
 
-      <div className="mt-4 flex h-[32.5rem] flex-col gap-y-5 overflow-y-scroll">
+      <div className="mt-4 flex flex-col gap-y-5 overflow-y-scroll xl:h-[32.5rem] 2xl:h-[400px]">
         <section className="border-gray-5 flex flex-col gap-y-3 rounded-[1.25rem] border p-5">
           <div className="flex justify-between">
             <h3 className="title-md">#1</h3>

@@ -1,9 +1,9 @@
 const AdditionalInfoForm = () => {
   return (
-    <div className="flex flex-col gap-y-[2.5rem]">
+    <div className="flex flex-col xl:gap-y-[2.5rem] 2xl:gap-y-[20px]">
       <h2 className="title-lg">상세정보</h2>
 
-      <section className="flex flex-col gap-y-[3.75rem]">
+      <section className="flex flex-col xl:gap-y-[3.75rem] 2xl:gap-y-[30px]">
         <section className="flex flex-col gap-y-3">
           <h3 className="subtitle-lg">
             영상에 대한 추가 요구사항<span className="subtitle-md text-gray-3">(선택)</span>

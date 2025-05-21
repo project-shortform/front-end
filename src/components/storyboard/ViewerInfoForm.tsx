@@ -3,10 +3,10 @@ const ViewerInfoForm = () => {
   const ageContents = ['영유아', '10대', '20대', '20-30대', '40-50대', '60대', '노인']
 
   return (
-    <div className="flex flex-col gap-y-[2.5rem]">
+    <div className="flex flex-col gap-y-[2.5rem] 2xl:gap-y-[20px]">
       <h2 className="title-lg">시청자 정보</h2>
 
-      <section className="flex flex-col gap-y-[3.75rem]">
+      <section className="flex flex-col gap-y-[3.75rem] 2xl:gap-y-[30px]">
         <section className="flex flex-col gap-y-3">
           <h3 className="subtitle-lg">성별</h3>
           <div className="flex gap-x-3">

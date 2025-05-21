@@ -6,7 +6,7 @@ interface BottomButtonProps {
 const BottomButton = (props: BottomButtonProps) => {
   const { onNext, onPrevious, step } = props
   return (
-    <div className="absolute right-[2.5rem] bottom-0 bottom-[2.5rem] flex w-full justify-end gap-x-[1.5rem]">
+    <div className="flex w-full justify-end gap-x-[1.5rem]">
       {onPrevious && (
         <button onClick={onPrevious} className="secondary-active-button h-[3.5rem] w-[12.5rem]">
           이전

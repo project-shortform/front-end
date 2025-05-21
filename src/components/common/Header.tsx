@@ -1,6 +1,6 @@
 import type { HeaderType } from '../../types/common.ts'
 import { Logo } from '../../assets/svgComponents'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 interface HeaderProps {
   headerType: HeaderType
@@ -8,7 +8,6 @@ interface HeaderProps {
 }
 const Header = (props: HeaderProps) => {
   const { headerType, onClick } = props
-  const navigate = useNavigate()
   const path = useLocation()
 
   const renderHeaderType = (headerType: HeaderType) => {
@@ -19,7 +18,6 @@ const Header = (props: HeaderProps) => {
             <Logo width={72} height={36} />
             <section className="border-gray-6 rounded-[12px] border p-2">
               <button
-                onClick={() => navigate('/storyboard')}
                 className={
                   path.pathname === '/storyboard'
                     ? 'ghost-active-button h-[2.25rem] w-[8.25rem]'
@@ -29,7 +27,6 @@ const Header = (props: HeaderProps) => {
                 스토리보드 생성
               </button>
               <button
-                onClick={() => navigate('/edit-movie')}
                 className={
                   path.pathname === '/edit-movie'
                     ? 'ghost-active-button h-[2.25rem] w-[8.25rem]'
@@ -39,7 +36,6 @@ const Header = (props: HeaderProps) => {
                 영상 편집
               </button>
               <button
-                onClick={() => navigate('/create-movie')}
                 className={
                   path.pathname === '/create-movie'
                     ? 'ghost-active-button h-[2.25rem] w-[8.25rem]'
