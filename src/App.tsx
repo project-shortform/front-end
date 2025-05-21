@@ -6,7 +6,6 @@ import MovieEditor from './pages/MovieEditor.tsx'
 import MovieCreator from './pages/MovieCreator.tsx'
 
 function App() {
-
   return (
     <>
       <BrowserRouter>
