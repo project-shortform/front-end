@@ -1,29 +1,64 @@
 import type { HeaderType } from '../../types/common.ts'
 import { Logo } from '../../assets/svgComponents'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface HeaderProps {
   headerType: HeaderType
   onClick?: () => void
 }
 const Header = (props: HeaderProps) => {
-  const {headerType, onClick} = props
+  const { headerType, onClick } = props
+  const navigate = useNavigate()
+  const path = useLocation()
 
   const renderHeaderType = (headerType: HeaderType) => {
     switch (headerType) {
       case 'DEFAULT':
         return (
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <Logo width={72} height={36} />
-            <button onClick={onClick} className="text-gray-2 button-md">로그인 | 회원가입</button>
+            <section className="border-gray-6 rounded-[12px] border p-2">
+              <button
+                onClick={() => navigate('/storyboard')}
+                className={
+                  path.pathname === '/storyboard'
+                    ? 'ghost-active-button h-[2.25rem] w-[8.25rem]'
+                    : 'ghost-disabled-button h-[2.25rem] w-[8.25rem]'
+                }
+              >
+                스토리보드 생성
+              </button>
+              <button
+                onClick={() => navigate('/edit-movie')}
+                className={
+                  path.pathname === '/edit-movie'
+                    ? 'ghost-active-button h-[2.25rem] w-[8.25rem]'
+                    : 'ghost-disabled-button h-[2.25rem] w-[8.25rem]'
+                }
+              >
+                영상 편집
+              </button>
+              <button
+                onClick={() => navigate('/create-movie')}
+                className={
+                  path.pathname === '/create-movie'
+                    ? 'ghost-active-button h-[2.25rem] w-[8.25rem]'
+                    : 'ghost-disabled-button h-[2.25rem] w-[8.25rem]'
+                }
+              >
+                영상 생성
+              </button>
+            </section>
+            <button onClick={onClick} className="text-gray-2 button-md">
+              로그인 | 회원가입
+            </button>
           </div>
         )
     }
   }
 
   return (
-    <div className="fixed top-0 py-5 px-10 h-[5rem] bg-[#00000033] w-full">
-      {renderHeaderType(headerType)}
-    </div>
+    <div className="fixed top-0 w-full bg-[#00000033] px-10 py-5 py-[0.875rem]">{renderHeaderType(headerType)}</div>
   )
 }
 export default Header

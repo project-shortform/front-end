@@ -11,7 +11,7 @@ import StoryboardPreview from '../components/storyboard/StoryboardPreview.tsx'
 type storyBoardType = 1 | 2 | 3 | 4
 
 const StoryBoard = () => {
-  const [step, setStep] = useState<storyBoardType>(4)
+  const [step, setStep] = useState<storyBoardType>(1)
 
   const renderStoryboardCard = (step: storyBoardType) => {
     switch (step) {
