@@ -458,6 +458,42 @@ body {
   letter-spacing: -0.24px;
 }
 
+.dropdown-list {
+  display: flex;
+  height: 48px;
+  padding: 12px 8px;
+  align-items: center;
+  gap: 156px;
+  flex-shrink: 0;
+
+  color: var(--color-gray-1, #F7F7F7);
+  font-family: Pretendard, serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.24px;
+}
+
+.dropdown-list:hover {
+  display: flex;
+  height: 48px;
+  padding: 12px 8px;
+  align-items: center;
+  gap: 156px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--color-gray-5, #4F5052);
+
+  color: var(--color-gray-1, #F7F7F7);
+  font-family: Pretendard, serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.24px;
+}
+
 /* custom-scroll 클래스에 스크롤바 스타일 적용 */
 .custom-scroll::-webkit-scrollbar {
   width: 4px;

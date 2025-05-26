@@ -1,12 +1,19 @@
 import Header from '../components/common/Header.tsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from '../components/common/Modal.tsx'
 import { GoogleLogo, KakaoLogo } from '../assets/svgComponents'
 import SideBar from '../components/movie-editor/SideBar.tsx'
 import MainDashBoard from '../components/movie-editor/MainDashBoard.tsx'
+import { useStoryBoardStore } from '../store/useStoryBoardStore.ts'
 
 const MovieEditor = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [selectedMenu, setSelectedMenu] = useState<'영상' | '설정' | '업로드' | '썸네일'>('영상')
+  const searchVideoList = useStoryBoardStore((state) => state.searchVideoList)
+
+  useEffect(() => {
+    console.log('searchVideoList', searchVideoList)
+  }, [searchVideoList])
 
   return (
     <main>
@@ -29,8 +36,8 @@ const MovieEditor = () => {
       )}
       <Header headerType={'DEFAULT'} onClick={() => setIsLoginModalOpen(true)} />
       <div className="h-[5rem]" />
-      <div className="flex items-center justify-center gap-x-[1.688rem] px-[2.5rem] py-[1.563rem]">
-        <SideBar />
+      <div className="flex items-center justify-center">
+        <SideBar setSelectedMenu={setSelectedMenu} selectedMenu={selectedMenu} />
         <MainDashBoard />
       </div>
     </main>

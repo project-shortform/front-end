@@ -9,12 +9,28 @@ import AdditionalInfoForm from '../components/storyboard/AdditionalInfoForm.tsx'
 import StoryboardPreview from '../components/storyboard/StoryboardPreview.tsx'
 import Modal from '../components/common/Modal.tsx'
 import { GoogleLogo, KakaoLogo } from '../assets/svgComponents'
+import { createStoryBoardType } from '../lib/api.ts'
+import { useStoryBoardStore } from '../store/useStoryBoardStore.ts'
+import Spinner from '../components/common/Spinner.tsx'
 
 type storyBoardType = 1 | 2 | 3 | 4
 
 const StoryBoard = () => {
   const [step, setStep] = useState<storyBoardType>(1)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  const requestInfo = useStoryBoardStore((state) => state.requestInfo)
+  const gender = useStoryBoardStore((state) => state.gender)
+  const age = useStoryBoardStore((state) => state.age)
+  const viewersStyle = useStoryBoardStore((state) => state.viewersStyle)
+  const category = useStoryBoardStore((state) => state.category)
+  const concept = useStoryBoardStore((state) => state.concept)
+  const conceptInputValue = useStoryBoardStore((state) => state.conceptInputValue)
+  const quantity = useStoryBoardStore((state) => state.quantity)
+
+  const isLoading = useStoryBoardStore((state) => state.isLoading)
+
+  const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
 
   const renderStoryboardCard = (step: storyBoardType) => {
     switch (step) {
@@ -39,7 +55,35 @@ const StoryBoard = () => {
           <StoryBoardCreatorCard>
             <ProcessBar step={step} />
             <AdditionalInfoForm />
-            <BottomButton step={step} onNext={() => setStep(4)} onPrevious={() => setStep(2)} />
+            <BottomButton
+              step={step}
+              onNext={() => {
+                setStep(4)
+                setStoryBoardState({ isLoading: true })
+                createStoryBoardType({
+                  style: {
+                    category: category,
+                    concept: concept === '기타' ? conceptInputValue : concept,
+                    quantity: quantity,
+                  },
+                  viewers: {
+                    sex: gender,
+                    age: age,
+                    viewers_style: viewersStyle,
+                  },
+                  info: {
+                    request_info: requestInfo,
+                  },
+                }).then((res) => {
+                  if (res) {
+                    setStoryBoardState({ isLoading: false })
+                    console.log('res', res)
+                    setStoryBoardState({ storyList: res.story })
+                  }
+                })
+              }}
+              onPrevious={() => setStep(2)}
+            />
           </StoryBoardCreatorCard>
         )
       default:
@@ -53,6 +97,7 @@ const StoryBoard = () => {
 
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center">
+      {/* 로그인 모달창 open */}
       {isLoginModalOpen && (
         <Modal onClick={() => setIsLoginModalOpen(false)}>
           <section className="mt-[5rem] flex flex-col items-center justify-center gap-y-[6.25rem]">
@@ -68,6 +113,12 @@ const StoryBoard = () => {
               </button>
             </div>
           </section>
+        </Modal>
+      )}
+      {/* 로딩 Spinner */}
+      {isLoading && (
+        <Modal onClick={() => setStoryBoardState({ isLoading: false })} className="pt-[100px]" isDeleteIcon={false}>
+          <Spinner />
         </Modal>
       )}
       <Header headerType={'DEFAULT'} onClick={() => setIsLoginModalOpen(true)} />
