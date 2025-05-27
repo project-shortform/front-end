@@ -42,4 +42,14 @@ export interface SearchVideoType {
   }
 }
 
+export interface NewSearchVideoListType {
+  scene: number
+  result: {
+    blobUrl: string
+    distance: number
+    file_name: string
+    metadata: { file_name: string; infomation: string }
+  }[]
+}
+
 export type SideBarType = '영상' | '설정' | '업로드' | '썸네일'

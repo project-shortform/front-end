@@ -5,11 +5,14 @@ import { GoogleLogo, KakaoLogo } from '../assets/svgComponents'
 import SideBar from '../components/movie-editor/SideBar.tsx'
 import MainDashBoard from '../components/movie-editor/MainDashBoard.tsx'
 import { useStoryBoardStore } from '../store/useStoryBoardStore.ts'
+import Spinner from '../components/common/Spinner.tsx'
 
 const MovieEditor = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [selectedMenu, setSelectedMenu] = useState<'영상' | '설정' | '업로드' | '썸네일'>('영상')
   const searchVideoList = useStoryBoardStore((state) => state.searchVideoList)
+  const isLoading = useStoryBoardStore((state) => state.isLoading)
+  const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
 
   useEffect(() => {
     console.log('searchVideoList', searchVideoList)
@@ -32,6 +35,11 @@ const MovieEditor = () => {
               </button>
             </div>
           </section>
+        </Modal>
+      )}
+      {isLoading && (
+        <Modal onClick={() => setStoryBoardState({ isLoading: false })} className="pt-[100px]" isDeleteIcon={false}>
+          <Spinner />
         </Modal>
       )}
       <Header headerType={'DEFAULT'} onClick={() => setIsLoginModalOpen(true)} />

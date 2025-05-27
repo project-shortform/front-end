@@ -1,6 +1,11 @@
 import { UnCheckIcon } from '../../../assets/svgComponents'
+import { useStoryBoardStore } from '../../../store/useStoryBoardStore.ts'
 
 const Setting = () => {
+  const storyList = useStoryBoardStore((state) => state.storyList)
+  const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
+  const selectedScene = useStoryBoardStore((state) => state.selectedScene)
+
   return (
     <div className="flex h-[875px] flex-col justify-between">
       <div className="flex flex-col gap-y-[28px]">
@@ -11,7 +16,16 @@ const Setting = () => {
 
         <section>
           <h3>장면 설명</h3>
-          <textarea className="default-input mt-3 h-[80px] w-full" />
+          <textarea
+            onChange={(e) => {
+              const updatedList = storyList.map((item) =>
+                item.scene === selectedScene ? { ...item, script: e.target.value } : item
+              )
+              setStoryBoardState({ storyList: updatedList })
+            }}
+            value={storyList.find((item) => item.scene === selectedScene)?.script || ''}
+            className="default-input mt-3 h-[80px] w-full"
+          />
         </section>
 
         <section>
@@ -33,7 +47,9 @@ const Setting = () => {
           <textarea className="default-input mt-2 h-[120px] w-full" />
         </section>
       </div>
-      <button className="secondary-active-button h-[56px] w-full">저장하기</button>
+      <button onClick={() => {}} className="secondary-active-button h-[56px] w-full">
+        저장하기
+      </button>
     </div>
   )
 }

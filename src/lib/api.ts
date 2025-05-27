@@ -5,7 +5,7 @@ import type { StoryBoardType, StoryType } from '../types/common.ts'
 export const createStoryBoardType = async (storyBoardType: StoryBoardType) => {
   const response = await apiClient.post('/api/story/generate', storyBoardType, {
     headers: {
-      skip_zrok_interstitial: '',
+      skip_zrok_interstitial: 'sdf',
     },
   })
   return response.data
@@ -18,7 +18,7 @@ export const createStoryBoardType = async (storyBoardType: StoryBoardType) => {
 export const getSearchVideo = async (text: string) => {
   const response = await apiClient.get(`/api/video/search?text=${text}`, {
     headers: {
-      skip_zrok_interstitial: '',
+      skip_zrok_interstitial: 'sdf',
     },
   })
   return response.data
@@ -36,7 +36,7 @@ export const createVideo = async (storyList: StoryType[]) => {
     },
     {
       headers: {
-        skip_zrok_interstitial: '',
+        skip_zrok_interstitial: 'sdf',
       },
     }
   )

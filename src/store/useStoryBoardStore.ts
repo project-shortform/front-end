@@ -1,5 +1,5 @@
 import { create } from 'zustand/index'
-import type { SearchVideoType, StoryType } from '../types/common.ts'
+import type { NewSearchVideoListType, SearchVideoType, StoryType } from '../types/common.ts'
 
 export interface StoryBoardStoreType {
   isLoading?: boolean
@@ -12,7 +12,11 @@ export interface StoryBoardStoreType {
   viewersStyle?: string
   requestInfo?: string
   storyList?: StoryType[]
+  selectedVideoUrl?: string
+  selectedScene?: number
   searchVideoList?: { scene: number; result: SearchVideoType[] }[]
+  newSearchVideoList?: NewSearchVideoListType[]
+  selectedEngScript?: string
 }
 
 interface useStoryBoardStoreType {
@@ -26,7 +30,11 @@ interface useStoryBoardStoreType {
   viewersStyle: string
   requestInfo: string
   storyList: StoryType[]
+  selectedVideoUrl: string
+  selectedScene: number
+  selectedEngScript: string
   searchVideoList: { scene: number; result: SearchVideoType[] }[]
+  newSearchVideoList: NewSearchVideoListType[]
 
   setStoryBoardState: (params: StoryBoardStoreType) => void
 }
@@ -42,7 +50,12 @@ export const useStoryBoardStore = create<useStoryBoardStoreType>((set) => ({
   viewersStyle: '',
   requestInfo: '',
   storyList: [],
+  //동영상 search
   searchVideoList: [],
+  newSearchVideoList: [],
+  selectedVideoUrl: '',
+  selectedScene: 0,
+  selectedEngScript: '',
 
   setStoryBoardState: (params: StoryBoardStoreType) => {
     set((state) => ({
