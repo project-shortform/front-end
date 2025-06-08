@@ -6,17 +6,55 @@ import SideBar from '../components/movie-editor/SideBar.tsx'
 import MainDashBoard from '../components/movie-editor/MainDashBoard.tsx'
 import { useStoryBoardStore } from '../store/useStoryBoardStore.ts'
 import Spinner from '../components/common/Spinner.tsx'
+import { getTaskResult } from '../lib/api.ts'
+import type { AsyncMovieResultType } from '../types/common.ts'
+import { useNavigate } from 'react-router-dom'
 
 const MovieEditor = () => {
+  const navigate = useNavigate()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [selectedMenu, setSelectedMenu] = useState<'영상' | '설정' | '업로드' | '썸네일'>('영상')
   const searchVideoList = useStoryBoardStore((state) => state.searchVideoList)
   const isLoading = useStoryBoardStore((state) => state.isLoading)
   const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
-
   useEffect(() => {
     console.log('searchVideoList', searchVideoList)
   }, [searchVideoList])
+
+  const processingTaskId = useStoryBoardStore((state) => state.processingTaskId)
+  const activeAsyncVideo = useStoryBoardStore((state) => state.activeAsyncVideo)
+
+  useEffect(() => {
+    console.log('activeAsyncVideo', activeAsyncVideo)
+    console.log('taskId', processingTaskId)
+
+    if (!activeAsyncVideo || !processingTaskId) return
+
+    const interval = setInterval(async () => {
+      try {
+        console.log('요청 보내짐')
+        const res: AsyncMovieResultType = await getTaskResult(processingTaskId)
+        console.log('Task Status:', res)
+
+        if (res.task.status === 'completed') {
+          setStoryBoardState({
+            activeAsyncVideo: false,
+            isLoading: false,
+            resultVideoUrl: res.task.result?.output_video,
+          })
+          navigate('/create-movie')
+        }
+
+        // 필요하면 상태 갱신
+      } catch (err) {
+        console.error('Task status polling error:', err)
+      }
+    }, 1000) // 1초마다
+
+    return () => {
+      clearInterval(interval) // unmount 또는 조건 변경 시 중단
+    }
+  }, [activeAsyncVideo, processingTaskId])
 
   return (
     <main>

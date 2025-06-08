@@ -5,10 +5,13 @@ export interface StoryBoardStoreType {
   isLoading?: boolean
   concept?: string
   conceptInputValue?: string
+  conceptDetail?: string
   quantity?: string
   category?: string
   gender?: string
   age?: string
+  material_type?: 'url' | 'txt' | 'pdf' | string
+  content?: string
   viewersStyle?: string
   requestInfo?: string
   storyList?: StoryType[]
@@ -17,6 +20,9 @@ export interface StoryBoardStoreType {
   searchVideoList?: { scene: number; result: SearchVideoType[] }[]
   newSearchVideoList?: NewSearchVideoListType[]
   selectedEngScript?: string
+  activeAsyncVideo?: boolean //영상 동기화 처리
+  processingTaskId?: string | null
+  resultVideoUrl?: string | null
 }
 
 interface useStoryBoardStoreType {
@@ -24,9 +30,12 @@ interface useStoryBoardStoreType {
   category: string
   concept: string
   conceptInputValue: string
+  conceptDetail: string
   quantity: string
   gender: string
   age: string
+  material_type: 'url' | 'txt' | 'pdf' | string
+  content: string
   viewersStyle: string
   requestInfo: string
   storyList: StoryType[]
@@ -35,18 +44,24 @@ interface useStoryBoardStoreType {
   selectedEngScript: string
   searchVideoList: { scene: number; result: SearchVideoType[] }[]
   newSearchVideoList: NewSearchVideoListType[]
+  activeAsyncVideo: boolean //영상 동기화 처리
+  processingTaskId: string | null //처리중인 taskId
+  resultVideoUrl: string | null
 
   setStoryBoardState: (params: StoryBoardStoreType) => void
 }
 
 export const useStoryBoardStore = create<useStoryBoardStoreType>((set) => ({
   isLoading: false,
+  quantity: '',
+  age: '',
   concept: '',
   conceptInputValue: '',
-  quantity: '',
+  conceptDetail: '',
   category: '',
+  material_type: 'txt',
+  content: '',
   gender: '',
-  age: '',
   viewersStyle: '',
   requestInfo: '',
   storyList: [],
@@ -56,6 +71,9 @@ export const useStoryBoardStore = create<useStoryBoardStoreType>((set) => ({
   selectedVideoUrl: '',
   selectedScene: 0,
   selectedEngScript: '',
+  activeAsyncVideo: false,
+  processingTaskId: null,
+  resultVideoUrl: null,
 
   setStoryBoardState: (params: StoryBoardStoreType) => {
     set((state) => ({

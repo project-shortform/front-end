@@ -1,16 +1,13 @@
 import { AshbnIcon, CopyIcon, PlusIcon } from '../../assets/svgComponents'
-import { useNavigate } from 'react-router-dom'
 import { useStoryBoardStore } from '../../store/useStoryBoardStore.ts'
 import { createVideo } from '../../lib/api.ts'
 
 const MainDashBoard = () => {
-  const navigate = useNavigate()
-
   const selectedVideoUrl = useStoryBoardStore((state) => state.selectedVideoUrl)
   const selectedScene = useStoryBoardStore((state) => state.selectedScene)
   const storyList = useStoryBoardStore((state) => state.storyList)
-
   const newSearchVideoList = useStoryBoardStore((state) => state.newSearchVideoList)
+
   const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
 
   return (
@@ -59,12 +56,20 @@ const MainDashBoard = () => {
       <div className="mt-7 flex w-full justify-end">
         <button
           onClick={() => {
-            setStoryBoardState({ isLoading: true })
-            createVideo(storyList).then((res) => {
-              setStoryBoardState({ isLoading: false })
-              console.log('동영상 생성 결과', res)
-              navigate('/create-movie')
-            })
+            setStoryBoardState({ isLoading: true, activeAsyncVideo: true })
+            createVideo(storyList).then(
+              (res: {
+                estimated_wait_time: string
+                message: string
+                queue_position: number
+                result: string
+                status: string
+                task_id: string
+              }) => {
+                console.log('동영상 생성 결과', res)
+                setStoryBoardState({ processingTaskId: res.task_id, activeAsyncVideo: true })
+              }
+            )
           }}
           className="active-button h-[56px] w-[392px]"
         >

@@ -3,15 +3,16 @@ import { useState } from 'react'
 import StoryBoardCreatorCard from '../components/storyboard/StoryBoardCreatorCard.tsx'
 import ProcessBar from '../components/storyboard/ProcessBar.tsx'
 import BottomButton from '../components/storyboard/BottomButton.tsx'
-import VideoStyleForm from '../components/storyboard/VideoStyleForm.tsx'
-import ViewerInfoForm from '../components/storyboard/ViewerInfoForm.tsx'
-import AdditionalInfoForm from '../components/storyboard/AdditionalInfoForm.tsx'
+import VideoBasicInfoForm from '../components/storyboard/VideoBasicInfoForm.tsx'
+import ReferenceForm from '../components/storyboard/ReferenceForm.tsx'
 import StoryboardPreview from '../components/storyboard/StoryboardPreview.tsx'
 import Modal from '../components/common/Modal.tsx'
 import { GoogleLogo, KakaoLogo } from '../assets/svgComponents'
-import { createStoryBoardType } from '../lib/api.ts'
 import { useStoryBoardStore } from '../store/useStoryBoardStore.ts'
 import Spinner from '../components/common/Spinner.tsx'
+import VideoStyleForm from '../components/storyboard/VideoStyleForm.tsx'
+import { createStoryBoardType } from '../lib/api.ts'
+import type { StoryType } from '../types/common.ts'
 
 type storyBoardType = 1 | 2 | 3 | 4
 
@@ -19,18 +20,17 @@ const StoryBoard = () => {
   const [step, setStep] = useState<storyBoardType>(1)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
-  const requestInfo = useStoryBoardStore((state) => state.requestInfo)
-  const gender = useStoryBoardStore((state) => state.gender)
-  const age = useStoryBoardStore((state) => state.age)
-  const viewersStyle = useStoryBoardStore((state) => state.viewersStyle)
-  const category = useStoryBoardStore((state) => state.category)
-  const concept = useStoryBoardStore((state) => state.concept)
-  const conceptInputValue = useStoryBoardStore((state) => state.conceptInputValue)
-  const quantity = useStoryBoardStore((state) => state.quantity)
-
   const isLoading = useStoryBoardStore((state) => state.isLoading)
 
   const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
+  const quantity = useStoryBoardStore((state) => state.quantity)
+  const age = useStoryBoardStore((state) => state.age)
+
+  const concept = useStoryBoardStore((state) => state.concept)
+  const conceptDetail = useStoryBoardStore((state) => state.conceptDetail)
+
+  const materialType = useStoryBoardStore((state) => state.material_type)
+  const content = useStoryBoardStore((state) => state.content)
 
   const renderStoryboardCard = (step: storyBoardType) => {
     switch (step) {
@@ -38,7 +38,7 @@ const StoryBoard = () => {
         return (
           <StoryBoardCreatorCard>
             <ProcessBar step={step} />
-            <VideoStyleForm />
+            <VideoBasicInfoForm />
             <BottomButton step={step} onNext={() => setStep(2)} />
           </StoryBoardCreatorCard>
         )
@@ -46,40 +46,36 @@ const StoryBoard = () => {
         return (
           <StoryBoardCreatorCard>
             <ProcessBar step={step} />
-            <ViewerInfoForm />
-            <BottomButton step={step} onNext={() => setStep(3)} onPrevious={() => setStep(1)} />
+            <VideoStyleForm />
+            <BottomButton step={step} onPrevious={() => setStep(1)} onNext={() => setStep(3)} />
           </StoryBoardCreatorCard>
         )
       case 3:
         return (
           <StoryBoardCreatorCard>
             <ProcessBar step={step} />
-            <AdditionalInfoForm />
+            <ReferenceForm />
             <BottomButton
               step={step}
               onNext={() => {
                 setStep(4)
                 setStoryBoardState({ isLoading: true })
                 createStoryBoardType({
-                  style: {
-                    category: category,
-                    concept: concept === '기타' ? conceptInputValue : concept,
+                  basic_info: {
                     quantity: quantity,
-                  },
-                  viewers: {
-                    sex: gender,
                     age: age,
-                    viewers_style: viewersStyle,
                   },
-                  info: {
-                    request_info: requestInfo,
+                  style_info: {
+                    concept: concept,
+                    concept_detail: conceptDetail,
                   },
-                }).then((res) => {
-                  if (res) {
-                    setStoryBoardState({ isLoading: false })
-                    console.log('res', res)
-                    setStoryBoardState({ storyList: res.story })
-                  }
+                  material_info: {
+                    material_type: materialType,
+                    content: content,
+                  },
+                }).then((res: { story: StoryType[] }) => {
+                  console.log('스토리 라인 생성 완료', res)
+                  setStoryBoardState({ isLoading: false, storyList: res.story })
                 })
               }}
               onPrevious={() => setStep(2)}
@@ -89,7 +85,7 @@ const StoryBoard = () => {
       default:
         return (
           <StoryBoardCreatorCard>
-            <StoryboardPreview onPrevious={() => setStep(3)} />
+            <StoryboardPreview onPrevious={() => setStep(2)} />
           </StoryBoardCreatorCard>
         )
     }

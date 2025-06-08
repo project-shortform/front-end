@@ -28,19 +28,17 @@ const Line = ({ isActive, position }: { isActive: boolean; position: 'left' | 'r
   const posClass = position === 'left' ? 'left-5' : 'right-6'
   const color = isActive ? 'bg-main' : 'bg-gray-5'
 
-  return <div className={`absolute ${posClass} h-[0.25rem] ${color} mb-8 w-[34.375rem]`} />
+  return <div className={`absolute ${posClass} h-[0.25rem] ${color} mb-8 w-[95%]`} />
 }
 
 const ProcessBar = ({ step }: ProcessBarProps) => {
   return (
     <div className="relative flex w-full items-center justify-between">
-      <StepCircle stepIndex={1} currentStep={step} title="스타일 입력" />
+      <StepCircle stepIndex={1} currentStep={step} title="기본 정보" />
       <Line isActive={step > 1} position="left" />
-      <div className="absolute left-1/2 z-10 flex w-[6.563rem] -translate-x-1/2 transform flex-col items-center gap-y-[0.5rem]">
-        <StepCircle stepIndex={2} currentStep={step} title="시청자 정보 입력" />
-      </div>
-      <Line isActive={step > 2} position="right" />
-      <StepCircle stepIndex={3} currentStep={step} title="상세 정보 입력" />
+      <StepCircle stepIndex={2} currentStep={step} title="영상 스타일" />
+      <Line isActive={step > 1} position="right" />
+      <StepCircle stepIndex={3} currentStep={step} title="레퍼런스" />
     </div>
   )
 }

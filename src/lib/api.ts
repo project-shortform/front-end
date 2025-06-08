@@ -30,7 +30,7 @@ export const getSearchVideo = async (text: string) => {
  */
 export const createVideo = async (storyList: StoryType[]) => {
   const response = await apiClient.post(
-    '/api/ai/video_generate',
+    '/api/ai/video_generate_async',
     {
       story: storyList,
     },
@@ -40,5 +40,14 @@ export const createVideo = async (storyList: StoryType[]) => {
       },
     }
   )
+  return response.data
+}
+
+export const getTaskResult = async (taskId: string | null) => {
+  const response = await apiClient.get(`/api/ai/task_status/${taskId}`, {
+    headers: {
+      skip_zrok_interstitial: 'sdf',
+    },
+  })
   return response.data
 }
