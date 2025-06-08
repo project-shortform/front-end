@@ -23,7 +23,7 @@ const Setting = () => {
               )
               setStoryBoardState({ storyList: updatedList })
             }}
-            value={storyList.find((item) => item.scene === selectedScene)?.script || ''}
+            value={storyList.find((item) => item.scene === selectedScene)?.script_ko || ''}
             className="default-input mt-3 h-[80px] w-full"
           />
         </section>

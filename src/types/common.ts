@@ -35,7 +35,7 @@ export interface ResultVideoType {
 
 export interface SearchVideoType {
   distance: number
-  file_name: string
+  file_name?: string
   metadata: {
     file_name: string
     information: string
@@ -49,7 +49,7 @@ export interface NewSearchVideoListType {
     blobUrl: string
     distance: number
     file_name: string
-    metadata: { file_name: string; information: string }
+    metadata: { file_name: string; information: string; thumbnail: string }
   }[]
 }
 
@@ -71,6 +71,15 @@ export interface AsyncMovieResultType {
     status: 'pending' | 'processing' | 'completed' | 'failed'
     type: string
   }
+}
+
+export interface CreateAsyncMovieResultType {
+  estimated_wait_time: string
+  message: string
+  queue_position: number
+  result: string
+  status: string
+  task_id: string
 }
 
 export type SideBarType = '영상' | '설정' | '업로드' | '썸네일'

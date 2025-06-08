@@ -16,13 +16,14 @@ export interface StoryBoardStoreType {
   requestInfo?: string
   storyList?: StoryType[]
   selectedVideoUrl?: string
+  selectedVideoThumbnail?: string
   selectedScene?: number
   searchVideoList?: { scene: number; result: SearchVideoType[] }[]
   newSearchVideoList?: NewSearchVideoListType[]
   selectedEngScript?: string
   activeAsyncVideo?: boolean //영상 동기화 처리
   processingTaskId?: string | null
-  resultVideoUrl?: string | null
+  resultVideoUrl?: string | undefined
 }
 
 interface useStoryBoardStoreType {
@@ -40,13 +41,14 @@ interface useStoryBoardStoreType {
   requestInfo: string
   storyList: StoryType[]
   selectedVideoUrl: string
+  selectedVideoThumbnail: string
   selectedScene: number
   selectedEngScript: string
   searchVideoList: { scene: number; result: SearchVideoType[] }[]
   newSearchVideoList: NewSearchVideoListType[]
   activeAsyncVideo: boolean //영상 동기화 처리
   processingTaskId: string | null //처리중인 taskId
-  resultVideoUrl: string | null
+  resultVideoUrl: string | undefined
 
   setStoryBoardState: (params: StoryBoardStoreType) => void
 }
@@ -69,11 +71,12 @@ export const useStoryBoardStore = create<useStoryBoardStoreType>((set) => ({
   searchVideoList: [],
   newSearchVideoList: [],
   selectedVideoUrl: '',
-  selectedScene: 0,
+  selectedVideoThumbnail: '',
+  selectedScene: 1,
   selectedEngScript: '',
   activeAsyncVideo: false,
   processingTaskId: null,
-  resultVideoUrl: null,
+  resultVideoUrl: undefined,
 
   setStoryBoardState: (params: StoryBoardStoreType) => {
     set((state) => ({

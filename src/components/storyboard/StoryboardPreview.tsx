@@ -7,8 +7,8 @@ import {
   WhiteArrowUpIcon,
 } from '../../assets/svgComponents'
 import { useNavigate } from 'react-router-dom'
-import type { StoryType } from '../../types/common.ts'
-import { createStoryBoardType, createVideo } from '../../lib/api.ts'
+import type { SearchVideoType, StoryType } from '../../types/common.ts'
+import { createStoryBoardType, getSearchVideo } from '../../lib/api.ts'
 import { useStoryBoardStore } from '../../store/useStoryBoardStore.ts'
 import { useEffect } from 'react'
 
@@ -35,6 +35,28 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
   useEffect(() => {
     console.log('storyList', storyList)
   }, [storyList])
+
+  const searchAllVideos = async (storyList: StoryType[]): Promise<{ scene: number; result: SearchVideoType[] }[]> => {
+    const results = await Promise.all(
+      storyList.map(async (story) => {
+        try {
+          const result: SearchVideoType[] = await getSearchVideo(story.script_eng)
+          return {
+            scene: story.scene,
+            result,
+          }
+        } catch (err) {
+          console.error(`scene ${story.scene} 실패:`, err)
+          return {
+            scene: story.scene,
+            result: [],
+          }
+        }
+      })
+    )
+
+    return results
+  }
 
   return (
     <div className="flex h-full flex-col">
@@ -136,29 +158,20 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
 
       <button
         onClick={async () => {
-          console.log('storyList', storyList)
           if (storyList.length === 0) return
-
           setStoryBoardState({ isLoading: true })
 
-          // ✅ 스토리 리스트 변환
-          const transformedList = storyList.map((story) => ({
-            scene: story.scene,
-            script: story.script_eng, // 영어 스크립트를 script에 넣음
-            subtitle: story.subtitle,
-          }))
-
           try {
-            const results = await createVideo(transformedList) // 변환된 리스트 사용
-            setStoryBoardState({ searchVideoList: results })
-            console.log('모든 씬 검색 결과:', results)
-            if (results) {
-              navigate('/edit-movie')
-            }
+            const searchResults = await searchAllVideos(storyList)
+            setStoryBoardState({
+              searchVideoList: searchResults,
+              isLoading: false,
+              selectedVideoUrl: searchResults[0].result[0].metadata.file_name,
+            })
+            console.log('모든 씬 검색 결과:', searchResults)
+            navigate('/edit-movie')
           } catch (err) {
             console.error('검색 실패:', err)
-          } finally {
-            setStoryBoardState({ isLoading: false })
           }
         }}
         className="active-button mt-5 w-full py-5"
