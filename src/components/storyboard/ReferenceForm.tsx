@@ -6,7 +6,7 @@ const ReferenceForm = () => {
   const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
   const materialType = useStoryBoardStore((state) => state.material_type)
 
-  const renderInputType = (inputType: 'url' | 'txt' | 'pdf') => {
+  const renderInputType = (inputType: 'url' | 'txt' | 'pdf' | string) => {
     switch (inputType) {
       case 'url':
         return (
