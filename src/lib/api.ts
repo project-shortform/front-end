@@ -1,6 +1,6 @@
 // POST
 import apiClient from './axios.ts'
-import type { StoryBoardType, StoryType } from '../types/common.ts'
+import type { StoryBoardType } from '../types/common.ts'
 
 export const createStoryBoardType = async (storyBoardType: StoryBoardType) => {
   const response = await apiClient.post('/api/story/generate', storyBoardType, {
@@ -28,12 +28,16 @@ export const getSearchVideo = async (text: string) => {
  * 자막이 달린 video
  * @param storyList
  */
-export const createVideo = async (storyList: StoryType[]) => {
+export const createVideo = async (
+  storyList: {
+    scene: number
+    script: string
+    subtitle: string
+  }[]
+) => {
   const response = await apiClient.post(
-    '/api/ai/video_generate_async',
-    {
-      story: storyList,
-    },
+    '/api/ai/video_generate_async?avoid_duplicates=true',
+    { story: storyList },
     {
       headers: {
         skip_zrok_interstitial: 'sdf',
