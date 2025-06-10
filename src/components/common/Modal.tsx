@@ -12,7 +12,7 @@ const Modal = (props: LoginModalProps) => {
   const { onClick, children, className, isDeleteIcon = true } = props
   return (
     <div
-      onClick={onClick}
+      onClick={isDeleteIcon ? onClick : undefined}
       className="fixed inset-0 z-50 flex min-h-screen flex-col items-center justify-center gap-y-2 bg-[rgba(0,0,0,0.6)]"
     >
       <motion.div
