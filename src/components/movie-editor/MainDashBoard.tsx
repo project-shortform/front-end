@@ -30,7 +30,7 @@ const MainDashBoard = () => {
       {selectedVideoUrl ? (
         <video
           controls
-          src={`https://nbn63w8bdp74.share.zrok.io/uploads/${selectedVideoUrl}`}
+          src={`https://clips.ngrok.app/uploads/${selectedVideoUrl}`}
           className="bg-gray-5 mt-[32px] h-[50%] w-[80%]"
         />
       ) : (
@@ -75,8 +75,6 @@ const MainDashBoard = () => {
               console.log('결과:', results)
               if (results) {
                 setStoryBoardState({ isLoading: true, activeAsyncVideo: true, processingTaskId: results.task_id })
-                setStoryBoardState({ activeAsyncVideo: true })
-                setStoryBoardState({ processingTaskId: results.task_id })
               }
             } catch (err) {
               console.error('검색 실패:', err)
