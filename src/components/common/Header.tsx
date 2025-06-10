@@ -1,6 +1,6 @@
 import type { HeaderType } from '../../types/common.ts'
 import { Logo } from '../../assets/svgComponents'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface HeaderProps {
   headerType: HeaderType
@@ -9,13 +9,19 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
   const { headerType, onClick } = props
   const path = useLocation()
-
+  const navigate = useNavigate()
   const renderHeaderType = (headerType: HeaderType) => {
     switch (headerType) {
       case 'DEFAULT':
         return (
           <div className="flex items-center justify-between">
-            <Logo width={72} height={36} />
+            <Logo
+              onClick={() => {
+                navigate('/')
+              }}
+              width={72}
+              height={36}
+            />
             <section className="border-gray-6 rounded-[12px] border p-2">
               <button
                 className={
