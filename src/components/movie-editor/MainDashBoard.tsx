@@ -30,7 +30,7 @@ const MainDashBoard = () => {
       {selectedVideoUrl ? (
         <video
           controls
-          src={`https://obear6y9p82u.share.zrok.io/uploads/${selectedVideoUrl}`}
+          src={`https://nbn63w8bdp74.share.zrok.io/uploads/${selectedVideoUrl}`}
           className="bg-gray-5 mt-[32px] h-[50%] w-[80%]"
         />
       ) : (

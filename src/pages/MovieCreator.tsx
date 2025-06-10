@@ -39,7 +39,7 @@ const MovieCreator = () => {
                 <video
                   controls
                   // src={'https://obear6y9p82u.share.zrok.io/output/final_edit_69.mp4'}
-                  src={`https://obear6y9p82u.share.zrok.io/${resultVideoUrl}`}
+                  src={`https://nbn63w8bdp74.share.zrok.io/${resultVideoUrl}`}
                   className="bg-gray-5 mt-[32px] w-[100%]"
                 />
               ) : (

@@ -17,7 +17,7 @@ const Movie = () => {
         <RedCircleCheckIcon width={24} height={24} className="absolute top-2 right-2 z-10 cursor-pointer" />
         <img
           alt={'썸네일'}
-          src={`https://obear6y9p82u.share.zrok.io${searchVideoList[selectedScene - 1].result[0].metadata.thumbnail}`}
+          src={`https://nbn63w8bdp74.share.zrok.io${searchVideoList[selectedScene - 1].result[0].metadata.thumbnail}`}
           width="100%"
           height="100%"
           className="bg-gray-5 rounded-[8px]"
@@ -54,7 +54,7 @@ const Movie = () => {
                   alt={'썸네일'}
                   width="100%"
                   height="100%"
-                  src={`https://obear6y9p82u.share.zrok.io${video.metadata.thumbnail}`}
+                  src={`https://nbn63w8bdp74.share.zrok.io${video.metadata.thumbnail}`}
                   className="w-full rounded"
                 />
               </div>
