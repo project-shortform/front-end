@@ -13,6 +13,7 @@ import Spinner from '../components/common/Spinner.tsx'
 import VideoStyleForm from '../components/storyboard/VideoStyleForm.tsx'
 import { createStoryBoardType } from '../lib/api.ts'
 import type { StoryType } from '../types/common.ts'
+import ResultButton from '../components/common/ResultButton.tsx'
 
 type storyBoardType = 1 | 2 | 3 | 4
 
@@ -119,6 +120,7 @@ const StoryBoard = () => {
       )}
       <Header headerType={'DEFAULT'} onClick={() => setIsLoginModalOpen(true)} />
       <div>{renderStoryboardCard(step)}</div>
+      <ResultButton />
     </main>
   )
 }

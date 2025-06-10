@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Modal from '../components/common/Modal.tsx'
 import { GoogleLogo, KakaoLogo } from '../assets/svgComponents'
+import ResultButton from '../components/common/ResultButton.tsx'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -42,6 +43,7 @@ const Login = () => {
           </button>
         </section>
       </div>
+      <ResultButton />
     </main>
   )
 }

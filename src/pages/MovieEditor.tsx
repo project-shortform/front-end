@@ -9,6 +9,7 @@ import Spinner from '../components/common/Spinner.tsx'
 import { getTaskResult } from '../lib/api.ts'
 import type { AsyncMovieResultType } from '../types/common.ts'
 import { useNavigate } from 'react-router-dom'
+import ResultButton from '../components/common/ResultButton.tsx'
 
 const MovieEditor = () => {
   const navigate = useNavigate()
@@ -86,6 +87,7 @@ const MovieEditor = () => {
         <SideBar setSelectedMenu={setSelectedMenu} selectedMenu={selectedMenu} />
         <MainDashBoard />
       </div>
+      <ResultButton />
     </main>
   )
 }

@@ -4,6 +4,7 @@ import Modal from '../components/common/Modal.tsx'
 import { GoogleLogo, KakaoLogo } from '../assets/svgComponents'
 import { useNavigate } from 'react-router-dom'
 import { useStoryBoardStore } from '../store/useStoryBoardStore.ts'
+import ResultButton from '../components/common/ResultButton.tsx'
 
 const MovieCreator = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
@@ -61,6 +62,7 @@ const MovieCreator = () => {
           </div>
         </section>
       </div>
+      <ResultButton />
     </main>
   )
 }
