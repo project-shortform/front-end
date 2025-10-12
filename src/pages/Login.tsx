@@ -8,7 +8,6 @@ import ResultButton from '../components/common/ResultButton.tsx'
 const Login = () => {
   const navigate = useNavigate()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center">
       {isLoginModalOpen && (

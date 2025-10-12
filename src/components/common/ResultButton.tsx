@@ -5,7 +5,7 @@ const ResultButton = () => {
 
   return (
     <button
-      className="bg-background border-gray-3 fixed right-[40px] bottom-[40px] rounded-full border p-5"
+      className="bg-background border-gray-3 fixed right-[40px] bottom-[40px] rounded-full border px-5 py-3"
       onClick={() => {
         navigate('/result')
       }}
