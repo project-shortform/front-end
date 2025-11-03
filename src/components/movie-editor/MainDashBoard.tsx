@@ -3,38 +3,61 @@ import { useStoryBoardStore } from '../../store/useStoryBoardStore.ts'
 import { createVideo } from '../../lib/api.ts'
 import type { CreateAsyncMovieResultType } from '../../types/common.ts'
 
+const BASE_URL = import.meta.env.VITE_API_URL
+
 const MainDashBoard = () => {
-  const selectedVideoUrl = useStoryBoardStore((state) => state.selectedVideoUrl)
+  const selectedVideoFileName = useStoryBoardStore((state) => state.selectedVideoFileName)
   const selectedScene = useStoryBoardStore((state) => state.selectedScene)
   const storyList = useStoryBoardStore((state) => state.storyList)
-  const searchVideoList = useStoryBoardStore((state) => state.searchVideoList)
+  const selectedVideoList = useStoryBoardStore((state) => state.selectedVideoList)
+  const selectedMusic = useStoryBoardStore((state) => state.selectedMusic)
 
   const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
 
   return (
-    <div className="flex h-[56.25rem] w-2/3 flex-col items-center justify-between px-[40px] py-[24px]">
+    <div className="flex w-2/3 flex-col items-center justify-between px-[40px] py-[24px]">
       <section className="bg-color border-gray-6 flex w-full gap-x-5 overflow-x-scroll rounded-[1.25rem] border p-6">
-        {searchVideoList.map((searchVideo) => {
+        {selectedVideoList?.map((searchVideo) => {
+          const isSelected = selectedScene === searchVideo.scene
+
           return (
             <div
+              className={`group relative h-[109px] w-[190px] flex-shrink-0 cursor-pointer overflow-hidden rounded-[8px] transition-all duration-300 ${
+                isSelected ? 'shadow-lg ring-2 ring-blue-500 ring-offset-2' : 'bg-gray-100 hover:shadow-md'
+              }`}
               onClick={() => {
-                setStoryBoardState({ selectedScene: searchVideo.scene })
+                setStoryBoardState({
+                  selectedScene: searchVideo.scene,
+                  selectedVideoFileName: searchVideo.video_file_name,
+                })
               }}
-              className="bg-gray-5 rounded-[8px] px-4 py-3"
+              key={searchVideo.scene}
             >
-              # {searchVideo.scene}
+              {/* 썸네일 이미지 */}
+              <img
+                className={`h-full w-full object-cover transition-transform duration-300 ${
+                  isSelected ? 'scale-105' : 'group-hover:scale-105'
+                }`}
+                src={`${BASE_URL}${searchVideo.thumbnail}`}
+                alt={`Scene ${searchVideo.scene} 썸네일`}
+              />
+
+              {/* 오버레이 텍스트 */}
+              <div
+                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+                  isSelected ? 'bg-black/40 opacity-100' : 'bg-black/20 opacity-0 group-hover:opacity-100'
+                }`}
+              >
+                <span className="text-sm font-semibold text-white"># {searchVideo.scene}</span>
+              </div>
             </div>
           )
         })}
       </section>
-      {selectedVideoUrl ? (
-        <video
-          controls
-          src={`https://clips.ngrok.app/uploads/${selectedVideoUrl}`}
-          className="bg-gray-5 mt-[32px] h-[50%] w-[80%]"
-        />
+      {selectedVideoFileName ? (
+        <video controls src={`${BASE_URL}/uploads/${selectedVideoFileName}`} className="bg-gray-5 mt-[32px] w-[80%]" />
       ) : (
-        <div className="bg-gray-5 mt-[32px] h-[50%] w-[80%]"></div>
+        <div className="bg-gray-5 mt-[32px] w-[80%]"></div>
       )}
       <section className="w-full">
         <div className="flex justify-between">
@@ -44,40 +67,74 @@ const MainDashBoard = () => {
             <AshbnIcon width={18} height={18} />
           </div>
         </div>
-        <div className="flex gap-x-6">
-          <div className="flex w-full flex-col gap-y-3">
-            <h3 className="subtitle-lg">장면 설명</h3>
-            <div className="default-input h-[7.5rem] w-full">{storyList[selectedScene - 1].script_ko}</div>
+        {storyList && selectedScene && (
+          <div className="flex gap-x-6">
+            <div className="flex w-full flex-col gap-y-3">
+              <h3 className="subtitle-lg">장면 설명</h3>
+              <div className="default-input h-[7.5rem] w-full">{storyList[selectedScene - 1]?.script_ko}</div>
+            </div>
+            <div className="flex w-full flex-col gap-y-3">
+              <h3 className="subtitle-lg">음성 및 자막</h3>
+              <div className="default-input h-[7.5rem] w-full">{storyList[selectedScene - 1]?.subtitle}</div>
+            </div>
           </div>
-          <div className="flex w-full flex-col gap-y-3">
-            <h3 className="subtitle-lg">음성 및 자막</h3>
-            <div className="default-input h-[7.5rem] w-full">{storyList[selectedScene - 1].subtitle}</div>
-          </div>
-        </div>
+        )}
       </section>
       <div className="mt-7 flex w-full justify-end">
         <button
           onClick={async () => {
-            console.log('storyList', storyList)
-            if (storyList.length === 0) return
+            console.log('[MainDashBoard] 영상 생성 시작')
+            console.log('selectedVideoList:', selectedVideoList)
+            if (!selectedVideoList?.length) {
+              console.error('[MainDashBoard] selectedVideoList가 비어있습니다')
+              return
+            }
 
+            // ========== 상태 업데이트 - 올바른 순서 ==========
+            // 1. 먼저 로딩 상태 활성화
             setStoryBoardState({ isLoading: true })
+            console.log('[MainDashBoard] isLoading: true')
 
-            // ✅ 스토리 리스트 변환
-            const transformedList = storyList.map((story) => ({
-              scene: story.scene,
-              script: story.script_eng, // 영어 스크립트를 script에 넣음
-              subtitle: story.subtitle,
+            const transformedList = selectedVideoList.map(({ scene, video_file_name, subtitle, script }) => ({
+              scene,
+              video_file_name,
+              subtitle,
+              script,
             }))
 
             try {
-              const results: CreateAsyncMovieResultType = await createVideo(transformedList) // 변환된 리스트 사용
-              console.log('결과:', results)
-              if (results) {
-                setStoryBoardState({ isLoading: true, activeAsyncVideo: true, processingTaskId: results.task_id })
+              console.log('[MainDashBoard] API 호출 중: createVideo')
+              const results: CreateAsyncMovieResultType = await createVideo(transformedList, selectedMusic)
+              console.log('[MainDashBoard] ✅ 영상 생성 요청 성공')
+              console.log('[MainDashBoard] 응답:', results)
+
+              if (results?.task_id) {
+                console.log('[MainDashBoard] task_id 수신:', results.task_id)
+
+                // ========== 상태 업데이트 - 올바른 순서 ==========
+                // 2. 비디오 생성 상태 활성화
+                // 3. 작업 ID 설정
+                // 4. isLoading은 true 유지 (진행 모달 표시를 위해)
+                setStoryBoardState({
+                  activeAsyncVideo: true, // ✅ 먼저 이걸 true
+                  processingTaskId: results.task_id, // ✅ 작업 ID 설정
+                  isLoading: true, // ✅ 로딩은 계속 true
+                })
+                console.log('[MainDashBoard] ✅ 상태 업데이트 완료')
+                console.log('[MainDashBoard] - activeAsyncVideo: true')
+                console.log('[MainDashBoard] - processingTaskId:', results.task_id)
+                console.log('[MainDashBoard] - isLoading: true')
+              } else {
+                console.error('[MainDashBoard] ❌ task_id가 없습니다')
+                console.error('[MainDashBoard] 응답 구조:', results)
+                setStoryBoardState({ isLoading: false })
               }
             } catch (err) {
-              console.error('검색 실패:', err)
+              console.error('[MainDashBoard] ❌ 비디오 생성 실패:', err)
+              if (err instanceof Error) {
+                console.error('[MainDashBoard] 에러 메시지:', err.message)
+              }
+              setStoryBoardState({ isLoading: false })
             }
           }}
           className="active-button h-[56px] w-[392px]"
@@ -88,4 +145,5 @@ const MainDashBoard = () => {
     </div>
   )
 }
+
 export default MainDashBoard
