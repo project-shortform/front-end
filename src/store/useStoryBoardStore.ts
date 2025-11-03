@@ -1,5 +1,11 @@
 import { create } from 'zustand/index'
-import type { NewSearchVideoListType, SearchVideoType, StoryType } from '../types/common.ts'
+import type {
+  MusicResponseType,
+  NewSearchVideoListType,
+  SearchVideoType,
+  SelectedVideoType,
+  StoryType,
+} from '../types/common.ts'
 
 export interface StoryBoardStoreType {
   isLoading?: boolean
@@ -15,42 +21,22 @@ export interface StoryBoardStoreType {
   viewersStyle?: string
   requestInfo?: string
   storyList?: StoryType[]
-  selectedVideoUrl?: string
+  selectedVideoFileName?: string
   selectedVideoThumbnail?: string
   selectedScene?: number
+  selectedVideoList?: SelectedVideoType[]
+  selectedMusic?: string
   searchVideoList?: { scene: number; result: SearchVideoType[] }[]
+  searchMusicList?: MusicResponseType[]
   newSearchVideoList?: NewSearchVideoListType[]
   selectedEngScript?: string
-  activeAsyncVideo?: boolean //영상 동기화 처리
+  activeAsyncVideo?: boolean
   processingTaskId?: string | null
   resultVideoUrl?: string | undefined
 }
 
-interface useStoryBoardStoreType {
-  isLoading: boolean
-  category: string
-  concept: string
-  conceptInputValue: string
-  conceptDetail: string
-  quantity: string
-  gender: string
-  age: string
-  material_type: 'url' | 'txt' | 'pdf' | string
-  content: string
-  viewersStyle: string
-  requestInfo: string
-  storyList: StoryType[]
-  selectedVideoUrl: string
-  selectedVideoThumbnail: string
-  selectedScene: number
-  selectedEngScript: string
-  searchVideoList: { scene: number; result: SearchVideoType[] }[]
-  newSearchVideoList: NewSearchVideoListType[]
-  activeAsyncVideo: boolean //영상 동기화 처리
-  processingTaskId: string | null //처리중인 taskId
-  resultVideoUrl: string | undefined
-
-  setStoryBoardState: (params: StoryBoardStoreType) => void
+interface useStoryBoardStoreType extends StoryBoardStoreType {
+  setStoryBoardState: (params: Partial<StoryBoardStoreType>) => void
 }
 
 export const useStoryBoardStore = create<useStoryBoardStoreType>((set) => ({
@@ -67,21 +53,21 @@ export const useStoryBoardStore = create<useStoryBoardStoreType>((set) => ({
   viewersStyle: '',
   requestInfo: '',
   storyList: [],
-  //동영상 search
   searchVideoList: [],
   newSearchVideoList: [],
-  selectedVideoUrl: '',
+  selectedVideoFileName: '',
   selectedVideoThumbnail: '',
+  selectedMusic: '',
+  selectedVideoList: [],
+  searchMusicList: [],
   selectedScene: 1,
   selectedEngScript: '',
   activeAsyncVideo: false,
   processingTaskId: null,
   resultVideoUrl: undefined,
 
-  setStoryBoardState: (params: StoryBoardStoreType) => {
-    set((state) => ({
-      ...state,
-      ...params,
-    }))
+  // ✅ 수정: 직접 params만 전달하기
+  setStoryBoardState: (params) => {
+    set(params)
   },
 }))

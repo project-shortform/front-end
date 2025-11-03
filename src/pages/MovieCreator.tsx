@@ -1,35 +1,69 @@
 import Header from '../components/common/Header.tsx'
 import { useState } from 'react'
-import Modal from '../components/common/Modal.tsx'
-import { GoogleLogo, KakaoLogo } from '../assets/svgComponents'
 import { useNavigate } from 'react-router-dom'
 import { useStoryBoardStore } from '../store/useStoryBoardStore.ts'
 import ResultButton from '../components/common/ResultButton.tsx'
+import LoginModal from '../components/modal/LoginModal.tsx'
+
+const BASE_URL = import.meta.env.VITE_API_URL
 
 const MovieCreator = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
   const resultVideoUrl = useStoryBoardStore((state) => state.resultVideoUrl)
   const navigate = useNavigate()
 
+  // 동영상 다운로드 함수
+  const handleDownloadVideo = async () => {
+    if (!resultVideoUrl) {
+      alert('다운로드할 동영상이 없습니다.')
+      return
+    }
+
+    setIsDownloading(true)
+
+    try {
+      const videoUrl = `${BASE_URL}/${resultVideoUrl}`
+
+      // fetch로 동영상 바이너리 데이터 가져오기
+      const response = await fetch(videoUrl)
+
+      if (!response.ok) {
+        throw new Error(`다운로드 실패: ${response.statusText}`)
+      }
+
+      // Blob으로 변환
+      const blob = await response.blob()
+
+      // 동적으로 다운로드 링크 생성
+      const downloadUrl = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = downloadUrl
+
+      // 파일명 설정 (URL에서 파일명 추출 또는 기본값 사용)
+      const filename = resultVideoUrl.split('/').pop() || 'video.mp4'
+      link.download = filename
+
+      // 클릭 트리거
+      document.body.appendChild(link)
+      link.click()
+
+      // 정리
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(downloadUrl)
+
+      console.log('다운로드 완료')
+    } catch (err) {
+      console.error('다운로드 오류:', err)
+      alert('동영상 다운로드에 실패했습니다.')
+    } finally {
+      setIsDownloading(false)
+    }
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      {isLoginModalOpen && (
-        <Modal onClick={() => setIsLoginModalOpen(false)}>
-          <section className="mt-[5rem] flex flex-col items-center justify-center gap-y-[6.25rem]">
-            <h2 className="title-lg text-gray-1">로그인이 필요합니다.</h2>
-            <div className="flex flex-col gap-y-3">
-              <button className="button-md flex h-[3.5rem] w-[25rem] items-center justify-center gap-x-2 rounded-[0.5rem] bg-[#FEE500] text-[#000000]">
-                <KakaoLogo width={18} height={18} />
-                카카오 로그인
-              </button>
-              <button className="border-gray-2 button-md flex h-[3.5rem] w-[25rem] items-center justify-center gap-x-2 rounded-[0.5rem] border bg-white text-[#000000]">
-                <GoogleLogo width={20} height={20} />
-                구글로 로그인
-              </button>
-            </div>
-          </section>
-        </Modal>
-      )}
+      {isLoginModalOpen && <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />}
       <Header headerType={'DEFAULT'} onClick={() => setIsLoginModalOpen(true)} />
       <div className="h-[80px]" />
       <div className="relative flex flex-col items-center justify-center">
@@ -37,28 +71,24 @@ const MovieCreator = () => {
           <div className="mt-5 w-[800px]">
             <div className="flex flex-col items-center justify-center">
               {resultVideoUrl ? (
-                <video
-                  controls
-                  // src={'https://obear6y9p82u.share.zrok.io/output/final_edit_69.mp4'}
-                  src={`https://clips.ngrok.app/${resultVideoUrl}`}
-                  className="bg-gray-5 mt-[32px] w-[100%]"
-                />
+                <video controls src={`${BASE_URL}/${resultVideoUrl}`} className="bg-gray-5 mt-[32px] w-[100%]" />
               ) : (
                 <div className="bg-gray-5 h-[474px] w-full" />
               )}
             </div>
-
-            <div className="mt-5 flex gap-x-2">
-              <input className="default-input w-full" placeholder={'영상의 제목을 입력해주세요.'}></input>
-              <button className="outline-default-button h-[48px] w-[120px]">저장</button>
-            </div>
           </div>
 
           <div className="absolute right-5 bottom-5 left-5 flex gap-x-6">
-            <button onClick={() => navigate('/edit-movie')} className="secondary-active-button h-[56px] w-full">
-              편집으로 돌아가기
+            <button onClick={() => navigate('/storyboard')} className="secondary-active-button h-[56px] w-full">
+              새로운 영상 만들기
             </button>
-            <button className="active-button h-[56px] w-full">다운로드</button>
+            <button
+              onClick={handleDownloadVideo}
+              disabled={!resultVideoUrl || isDownloading}
+              className="active-button h-[56px] w-full disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isDownloading ? '다운로드 중...' : '다운로드'}
+            </button>
           </div>
         </section>
       </div>

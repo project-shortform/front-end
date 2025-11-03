@@ -36,9 +36,18 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
     console.log('storyList', storyList)
   }, [storyList])
 
-  const searchAllVideos = async (storyList: StoryType[]): Promise<{ scene: number; result: SearchVideoType[] }[]> => {
+  const searchAllVideos = async (
+    storyList: StoryType[] | undefined
+  ): Promise<{ scene: number; result: SearchVideoType[] }[]> => {
+    // 빈 배열로 기본값 설정 - nullish coalescing operator 사용
+    const validStoryList = storyList ?? []
+
+    if (validStoryList.length === 0) {
+      return []
+    }
+
     const results = await Promise.all(
-      storyList.map(async (story) => {
+      validStoryList.map(async (story) => {
         try {
           const result: SearchVideoType[] = await getSearchVideo(story.script_eng)
           return {
@@ -66,7 +75,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
           <DeleteIcon width={24} height={24} onClick={onPrevious} />
         </div>
         <div className="flex items-center justify-between">
-          <h2 className="title-md">생성된 장면 총 {storyList.length}개</h2>
+          <h2 className="title-md">생성된 장면 총 {storyList?.length}개</h2>
           <button
             onClick={() => {
               setStoryBoardState({ isLoading: true })
@@ -158,7 +167,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
 
       <button
         onClick={async () => {
-          if (storyList.length === 0) return
+          if (storyList?.length === 0) return
           setStoryBoardState({ isLoading: true })
 
           try {
@@ -166,7 +175,7 @@ const StoryboardPreview = (props: StoryboardPreviewProps) => {
             setStoryBoardState({
               searchVideoList: searchResults,
               isLoading: false,
-              selectedVideoUrl: searchResults[0].result[0].metadata.file_name,
+              selectedVideoFileName: searchResults[0].result[0].metadata.file_name,
             })
             console.log('모든 씬 검색 결과:', searchResults)
             navigate('/edit-movie')
