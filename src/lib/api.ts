@@ -1,6 +1,6 @@
 // POST
 import apiClient from './axios.ts'
-import type { StoryBoardType } from '../types/common.ts'
+import type { MusicResponseType, StoryBoardType } from '../types/common.ts'
 
 export const createStoryBoardType = async (storyBoardType: StoryBoardType) => {
   const response = await apiClient.post('/api/story/generate', storyBoardType, {
@@ -26,18 +26,21 @@ export const getSearchVideo = async (text: string) => {
 
 /**
  * 자막이 달린 video
- * @param storyList
+ * @param selectedVideoList
+ * @param music
  */
 export const createVideo = async (
-  storyList: {
+  selectedVideoList: {
     scene: number
     script: string
     subtitle: string
-  }[]
+    video_file_name: string
+  }[],
+  music?: string
 ) => {
   const response = await apiClient.post(
-    '/api/ai/video_generate_async?avoid_duplicates=true',
-    { story: storyList },
+    `/api/ai/video_generate_mixed_async?avoid_duplicates=true&filter_vertical=true${music ? `&background_music=${music}` : ''}`,
+    selectedVideoList,
     {
       headers: {
         skip_zrok_interstitial: 'sdf',
@@ -49,6 +52,19 @@ export const createVideo = async (
 
 export const getTaskResult = async (taskId: string | null) => {
   const response = await apiClient.get(`/api/ai/task_status/${taskId}`, {
+    headers: {
+      skip_zrok_interstitial: 'sdf',
+    },
+  })
+  return response.data
+}
+
+/**
+ * 배경 음악 검색
+ * @param text
+ */
+export const getMusicSearch = async (text: string): Promise<MusicResponseType[]> => {
+  const response = await apiClient.get(`/api/music/search?text=${text}`, {
     headers: {
       skip_zrok_interstitial: 'sdf',
     },

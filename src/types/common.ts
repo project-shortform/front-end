@@ -1,16 +1,16 @@
 export type HeaderType = 'DEFAULT'
 export interface StoryBoardType {
-  basic_info: {
-    quantity: string
-    age: string
+  basic_info?: {
+    quantity?: string
+    age?: string
   }
-  style_info: {
-    concept: string
-    concept_detail: string
+  style_info?: {
+    concept?: string
+    concept_detail?: string
   }
-  material_info: {
-    material_type: string
-    content: string
+  material_info?: {
+    material_type?: string
+    content?: string
   }
 }
 
@@ -82,4 +82,22 @@ export interface CreateAsyncMovieResultType {
   task_id: string
 }
 
-export type SideBarType = '영상' | '설정' | '업로드' | '썸네일'
+export type SideBarType = '영상' | '설정' | '음악'
+
+export interface SelectedVideoType {
+  scene: number
+  video_file_name: string
+  subtitle: string
+  thumbnail?: string
+  script: string
+}
+
+export interface MusicResponseType {
+  metadata: {
+    file_name: string
+    information: string
+    duration: number
+    type: 'music'
+  }
+  distance: number
+}

@@ -3,17 +3,14 @@ import {
   RedMovieIcon,
   RedSettingIcon,
   RedThumbnailIcon,
-  RedUploadIcon,
   SettingIcon,
   ThumbnailIcon,
-  UploadIcon,
 } from '../../assets/svgComponents'
 import type { Dispatch, SetStateAction } from 'react'
 import type { SideBarType } from '../../types/common.ts'
 import Movie from './sidebar/Movie.tsx'
 import Setting from './sidebar/Setting.tsx'
-import Upload from './sidebar/Upload.tsx'
-import Thumbnail from './sidebar/Thumbnail.tsx'
+import Music from './sidebar/Music.tsx'
 
 interface SideBarProps {
   setSelectedMenu: Dispatch<SetStateAction<SideBarType>>
@@ -21,18 +18,16 @@ interface SideBarProps {
 }
 
 const SideBar = ({ selectedMenu, setSelectedMenu }: SideBarProps) => {
-  const sideBarMenu: SideBarType[] = ['영상', '설정', '업로드', '썸네일']
+  const sideBarMenu: SideBarType[] = ['영상', '설정', '음악']
 
   const renderIcon = (sideBarMenu: SideBarType) => {
     switch (sideBarMenu) {
       case '설정':
         return <SettingIcon width={32} height={32} />
-      case '썸네일':
-        return <ThumbnailIcon width={32} height={32} />
-      case '업로드':
-        return <UploadIcon width={32} height={32} />
-      default:
+      case '음악':
         return <MovieIcon width={32} height={32} />
+      default:
+        return <ThumbnailIcon width={32} height={32} />
     }
   }
 
@@ -40,12 +35,10 @@ const SideBar = ({ selectedMenu, setSelectedMenu }: SideBarProps) => {
     switch (sideBarMenu) {
       case '설정':
         return <RedSettingIcon width={32} height={32} />
-      case '썸네일':
-        return <RedThumbnailIcon width={32} height={32} />
-      case '업로드':
-        return <RedUploadIcon width={32} height={32} />
-      default:
+      case '음악':
         return <RedMovieIcon width={32} height={32} />
+      default:
+        return <RedThumbnailIcon width={32} height={32} />
     }
   }
 
@@ -53,10 +46,8 @@ const SideBar = ({ selectedMenu, setSelectedMenu }: SideBarProps) => {
     switch (sideBarMenu) {
       case '설정':
         return <Setting />
-      case '썸네일':
-        return <Thumbnail />
-      case '업로드':
-        return <Upload />
+      case '음악':
+        return <Music />
       default:
         return <Movie />
     }
@@ -80,7 +71,7 @@ const SideBar = ({ selectedMenu, setSelectedMenu }: SideBarProps) => {
           )
         })}
       </section>
-      <div className="border-gray-5 w-full border-r p-6">{renderSideBar(selectedMenu)}</div>
+      <div className="border-gray-5 flex-1 overflow-hidden border-r p-6">{renderSideBar(selectedMenu)}</div>
     </div>
   )
 }
