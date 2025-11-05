@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { getMusicSearch } from '../../../lib/api.ts'
 import { RedCircleCheckIcon, UnCheckIcon } from '../../../assets/svgComponents'
 
+const BASE_URL = import.meta.env.VITE_API_URL
+
 export default function Music() {
   const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
   const selectedMusic = useStoryBoardStore((state) => state.selectedMusic)
@@ -34,24 +36,30 @@ export default function Music() {
   }
 
   const handlePlayMusic = (musicUrl: string, fileName: string) => {
+    // 1. 이미 같은 곡이 재생 중이면 토글 (재생/일시정지)
+    if (playingMusic === fileName && audioRef) {
+      if (audioRef.paused) {
+        audioRef.play()
+        setPlayingMusic(fileName)
+      } else {
+        audioRef.pause()
+        setPlayingMusic(null) // ✅ 일시정지 시 상태 초기화
+      }
+      return
+    }
+
+    // 2. 다른 곡이 재생 중이면 이전 곡 중지
     if (audioRef && playingMusic !== fileName) {
       audioRef.pause()
       audioRef.currentTime = 0
     }
 
-    if (playingMusic === fileName && audioRef) {
-      if (audioRef.paused) {
-        audioRef.play()
-      } else {
-        audioRef.pause()
-      }
-    } else {
-      const audio = new Audio(musicUrl)
-      audio.onended = () => setPlayingMusic(null)
-      audio.play()
-      setAudioRef(audio)
-      setPlayingMusic(fileName)
-    }
+    // 3. 새로운 곡 재생
+    const audio = new Audio(musicUrl)
+    audio.onended = () => setPlayingMusic(null)
+    audio.play()
+    setAudioRef(audio)
+    setPlayingMusic(fileName)
   }
 
   const handleStopMusic = () => {
@@ -130,7 +138,9 @@ export default function Music() {
 
                     {/* ✅ 재생/일시정지 버튼 */}
                     <button
-                      onClick={() => handlePlayMusic(music.metadata.file_name, music.metadata.file_name)}
+                      onClick={() =>
+                        handlePlayMusic(`${BASE_URL}/music/${music.metadata.file_name}`, music.metadata.file_name)
+                      }
                       className={`flex-shrink-0 rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ${
                         isPlaying
                           ? 'bg-red-500 text-white hover:bg-red-600'
