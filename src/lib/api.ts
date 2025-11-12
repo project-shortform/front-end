@@ -73,3 +73,17 @@ export const getMusicSearch = async (text: string): Promise<MusicResponseType[]>
   })
   return response.data
 }
+
+/**
+ * 비디오 히스토리 조회
+ * @param limit
+ * @param offset
+ */
+export const getVideoHistory = async (limit = 10, offset = 0) => {
+  const response = await apiClient.get(`/api/ai/video_history?limit=${limit}&offset=${offset}`, {
+    headers: {
+      skip_zrok_interstitial: 'sdf',
+    },
+  })
+  return response.data
+}

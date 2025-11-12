@@ -101,3 +101,46 @@ export interface MusicResponseType {
   }
   distance: number
 }
+
+export interface VideoHistoryItem {
+  output_path: string
+  created_at: string
+  video_infos: {
+    path: string
+    audio_path: string
+    text: string
+    scene: number
+    script: string
+    search_keywords: string | null
+    video_file_name: string
+    selection_method: string
+    metadata: Record<string, unknown>
+  }[]
+  story_request: {
+    scenes: {
+      scene: number
+      video_file_name: string
+      subtitle: string
+      script: string
+    }[]
+  }
+  generation_options: {
+    generation_type: string
+    avoid_duplicates: boolean
+    filter_vertical: boolean
+    max_search_results: number
+    skip_unresolved: boolean
+    voice?: string
+    async_processing: boolean
+  }
+  id: number
+}
+
+export interface VideoHistoryResponse {
+  result: string
+  total_count: number
+  returned_count: number
+  offset: number
+  limit: number | null
+  history: VideoHistoryItem[]
+}
