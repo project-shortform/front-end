@@ -82,7 +82,7 @@ export interface CreateAsyncMovieResultType {
   task_id: string
 }
 
-export type SideBarType = '영상' | '설정' | '음악'
+export type SideBarType = '영상' | '설정' | '음악' | '음성'
 
 export interface SelectedVideoType {
   scene: number

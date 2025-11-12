@@ -28,6 +28,7 @@ export const getSearchVideo = async (text: string) => {
  * 자막이 달린 video
  * @param selectedVideoList
  * @param music
+ * @param voice
  */
 export const createVideo = async (
   selectedVideoList: {
@@ -36,10 +37,11 @@ export const createVideo = async (
     subtitle: string
     video_file_name: string
   }[],
-  music?: string
+  music?: string,
+  voice?: string
 ) => {
   const response = await apiClient.post(
-    `/api/ai/video_generate_mixed_async?avoid_duplicates=true&filter_vertical=true${music ? `&background_music=${music}` : ''}`,
+    `/api/ai/video_generate_mixed_async?avoid_duplicates=true&filter_vertical=true${music ? `&background_music=${music}` : ''}${voice ? `&voice=${voice}` : ''}`,
     selectedVideoList,
     {
       headers: {

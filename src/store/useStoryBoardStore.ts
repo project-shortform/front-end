@@ -26,6 +26,7 @@ export interface StoryBoardStoreType {
   selectedScene?: number
   selectedVideoList?: SelectedVideoType[]
   selectedMusic?: string
+  selectedVoice?: string
   searchVideoList?: { scene: number; result: SearchVideoType[] }[]
   searchMusicList?: MusicResponseType[]
   newSearchVideoList?: NewSearchVideoListType[]
@@ -58,6 +59,7 @@ export const useStoryBoardStore = create<useStoryBoardStoreType>((set) => ({
   selectedVideoFileName: '',
   selectedVideoThumbnail: '',
   selectedMusic: '',
+  selectedVoice: '',
   selectedVideoList: [],
   searchMusicList: [],
   selectedScene: 1,

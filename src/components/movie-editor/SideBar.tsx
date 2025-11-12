@@ -11,6 +11,7 @@ import type { SideBarType } from '../../types/common.ts'
 import Movie from './sidebar/Movie.tsx'
 import Setting from './sidebar/Setting.tsx'
 import Music from './sidebar/Music.tsx'
+import Voice from './sidebar/Voice.tsx'
 
 interface SideBarProps {
   setSelectedMenu: Dispatch<SetStateAction<SideBarType>>
@@ -18,7 +19,7 @@ interface SideBarProps {
 }
 
 const SideBar = ({ selectedMenu, setSelectedMenu }: SideBarProps) => {
-  const sideBarMenu: SideBarType[] = ['영상', '설정', '음악']
+  const sideBarMenu: SideBarType[] = ['영상', '설정', '음악', '음성']
 
   const renderIcon = (sideBarMenu: SideBarType) => {
     switch (sideBarMenu) {
@@ -26,6 +27,8 @@ const SideBar = ({ selectedMenu, setSelectedMenu }: SideBarProps) => {
         return <SettingIcon width={32} height={32} />
       case '음악':
         return <MovieIcon width={32} height={32} />
+      case '음성':
+        return <SettingIcon width={32} height={32} />
       default:
         return <ThumbnailIcon width={32} height={32} />
     }
@@ -37,6 +40,8 @@ const SideBar = ({ selectedMenu, setSelectedMenu }: SideBarProps) => {
         return <RedSettingIcon width={32} height={32} />
       case '음악':
         return <RedMovieIcon width={32} height={32} />
+      case '음성':
+        return <RedSettingIcon width={32} height={32} />
       default:
         return <RedThumbnailIcon width={32} height={32} />
     }
@@ -48,6 +53,8 @@ const SideBar = ({ selectedMenu, setSelectedMenu }: SideBarProps) => {
         return <Setting />
       case '음악':
         return <Music />
+      case '음성':
+        return <Voice />
       default:
         return <Movie />
     }

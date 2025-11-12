@@ -11,6 +11,7 @@ const MainDashBoard = () => {
   const storyList = useStoryBoardStore((state) => state.storyList)
   const selectedVideoList = useStoryBoardStore((state) => state.selectedVideoList)
   const selectedMusic = useStoryBoardStore((state) => state.selectedMusic)
+  const selectedVoice = useStoryBoardStore((state) => state.selectedVoice)
 
   const setStoryBoardState = useStoryBoardStore((state) => state.setStoryBoardState)
 
@@ -104,7 +105,11 @@ const MainDashBoard = () => {
 
             try {
               console.log('[MainDashBoard] API 호출 중: createVideo')
-              const results: CreateAsyncMovieResultType = await createVideo(transformedList, selectedMusic)
+              const results: CreateAsyncMovieResultType = await createVideo(
+                transformedList,
+                selectedMusic,
+                selectedVoice
+              )
               console.log('[MainDashBoard] ✅ 영상 생성 요청 성공')
               console.log('[MainDashBoard] 응답:', results)
 
